@@ -7,7 +7,7 @@ class Program:
     def run_file(self, filename):
         with open(filename, 'r') as f:
             code = f.read()
-        return run_code(code)
+        return self.run_code(code)
 
     def run_code(self, code):
         tokenizer = fpl.tokenizer.Tokenizer()
