@@ -1,0 +1,7 @@
+# Vim swap files
+*.swp
+*.swo
+
+# Python cache and compiled files
+/__pycache__
+*.pyc
