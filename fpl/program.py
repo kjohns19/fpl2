@@ -1,4 +1,4 @@
-import tokenizer
+import fpl.tokenizer
 
 class Program:
     def __init__(self):
@@ -10,6 +10,7 @@ class Program:
         return run_code(code)
 
     def run_code(self, code):
+        tokenizer = fpl.tokenizer.Tokenizer()
         tokens = tokenizer.tokenize(code)
         for token in tokens:
             print(token)

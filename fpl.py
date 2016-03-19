@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 
-import program
+import fpl.program
 
 import argparse
 import sys
 
 def main():
     args = parse_arguments()
-    prog = program.Program()
+    program = fpl.program.Program()
     if args.program:
-        prog.run_file(args.program)
+        program.run_file(args.program)
     elif args.command:
-        prog.run_code(args.command)
+        program.run_code(args.command)
     else:
         for line in sys.stdin:
-            prog.run_code(line)
+            program.run_code(line)
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='fpl interpreter')
