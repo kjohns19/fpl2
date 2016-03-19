@@ -5,11 +5,22 @@ import argparse
 
 def main():
     args = parse_arguments()
-    interpreter.run_file(args.program)
+    if args.program:
+        interpreter.run_file(args.program)
+    elif args.command:
+        interpreter.run_code(args.command)
+    else:
+        #TODO read from stdin
+        pass
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='fpl interpreter')
-    parser.add_argument('program', action='store', help='fpl script to run')
+    parser.add_argument(
+            'program', nargs='?',
+            help='fpl script to run')
+    parser.add_argument(
+            '-c', '--command',
+            help='run a script from the command line')
     args = parser.parse_args()
     return args
 
