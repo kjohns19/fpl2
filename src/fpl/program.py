@@ -13,4 +13,4 @@ class Program:
         tokenizer = fpl.tokenizer.Tokenizer()
         tokens = tokenizer.tokenize(code)
         for token in tokens:
-            print(token)
+            print(type(token).__name__ + ': ' + str(token))
