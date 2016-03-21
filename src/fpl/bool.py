@@ -25,3 +25,5 @@ class Bool(fpl.value.Value):
 
     def __str__(self):
         return str(self.value)
+
+fpl.value.Value.register_type('Bool', Bool)

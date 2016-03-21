@@ -10,3 +10,5 @@ class Symbol(fpl.value.Value):
 
     def __str__(self):
         return self.value
+
+fpl.value.Value.register_type('Symbol', Symbol)

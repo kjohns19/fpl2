@@ -23,3 +23,5 @@ class Operator(fpl.value.Value):
 
     def __str__(self):
         return self.symbol
+
+fpl.value.Value.register_type('Operator', Operator)

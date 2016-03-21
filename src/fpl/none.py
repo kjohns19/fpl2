@@ -17,3 +17,5 @@ class NoneType(fpl.value.Value):
 
     def __str__(self):
         return ''
+
+fpl.value.Value.register_type('NoneType', NoneType)
