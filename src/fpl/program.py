@@ -1,8 +1,9 @@
 import fpl.tokenizer
+import fpl.stack
 
 class Program:
     def __init__(self):
-        pass
+        self.stack = fpl.stack.Stack()
 
     def run_file(self, filename):
         with open(filename, 'r') as f:
@@ -13,4 +14,5 @@ class Program:
         tokenizer = fpl.tokenizer.Tokenizer()
         tokens = tokenizer.tokenize(code)
         for token in tokens:
-            print(type(token).__name__ + ': ' + str(token))
+            token.apply(self)
+        print(self.stack)

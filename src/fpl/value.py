@@ -11,5 +11,8 @@ class Value:
     def apply(self, program):
         program.stack.push(self)
 
+    def __repr__(self):
+        return str(self)
+
     def serialize(self):
         return type(self).__name__ + '\n' + str(self)

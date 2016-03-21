@@ -1,4 +1,5 @@
 import fpl.program
+import fpl.binary_operators
 
 import argparse
 import sys
