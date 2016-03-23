@@ -1,4 +1,5 @@
 import importlib
+import os.path
 
 class Value:
     __types = {}
@@ -14,6 +15,23 @@ class Value:
             print('Invalid type: ' + classname)
             return None
         return cls.deserialize(args)
+
+    @staticmethod
+    def load(filename):
+        if os.path.isfile(filename):
+            with open(filename, 'r') as f:
+                data = f.read()
+                return Value.deserialize(data)
+        elif os.path.isdir(filename):
+            #TODO create object
+            pass
+        else:
+            print('Invalid filename: ' + filename)
+            return None
+
+    def save(filename):
+        with open(filename, 'w') as f:
+            f.write(serialize())
 
     def apply(self, program):
         program.stack.push(self)
