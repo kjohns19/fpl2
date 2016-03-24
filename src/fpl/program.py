@@ -1,9 +1,16 @@
 import fpl.tokenizer
 import fpl.stack
+import fpl.number
+import fpl.utils
+import os
+import os.path
 
 class Program:
     def __init__(self):
-        self.stack = fpl.stack.Stack()
+        self.path = '_fpl_runtime'
+        fpl.utils.clear_path(self.path)
+        os.makedirs(self.path)
+        self.stack = fpl.stack.Stack(os.path.join(self.path, '_stack'))
 
     def run_file(self, filename):
         with open(filename, 'r') as f:
@@ -14,5 +21,6 @@ class Program:
         tokenizer = fpl.tokenizer.Tokenizer()
         tokens = tokenizer.tokenize(code)
         for token in tokens:
+            print(type(token).__name__ + ': ' + str(token))
             token.apply(self)
         print(self.stack)

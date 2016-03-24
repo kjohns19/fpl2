@@ -1,11 +1,23 @@
 import fpl.value
+import fpl.utils
 import os.path
 import sys
 
 class Variable:
-    def __init__(self, path, value=None):
+    def __init__(self, path, default=None, value=None, do_load=False, do_save=False):
         self.path = path
-        self.value = value
+        loaded = False
+        if value:
+            self.value = value
+        elif os.path.exists(path):
+            if do_load:
+                self.load()
+                loaded = True
+        elif default:
+            self.value = default
+
+        if not loaded and self.value and do_save:
+            self.save()
 
     def load(self):
         if os.path.exists(self.path):
@@ -18,4 +30,7 @@ class Variable:
 
     def save(self):
         if self.value:
-            self.value.save()
+            self.value.save(self.path)
+
+    def delete(self):
+        fpl.utils.clear_path(self.path)

@@ -1,3 +1,4 @@
+import fpl.utils
 import importlib
 import os.path
 
@@ -29,9 +30,10 @@ class Value:
             print('Invalid filename: ' + filename)
             return None
 
-    def save(filename):
+    def save(self, filename):
+        fpl.utils.clear_path(filename)
         with open(filename, 'w') as f:
-            f.write(serialize())
+            f.write(self.serialize())
 
     def apply(self, program):
         program.stack.push(self)
