@@ -7,9 +7,8 @@ class Variable:
     def __init__(self, path, default=None, value=None, do_load=False, do_save=False):
         self.path = path
         loaded = False
-        if value:
-            self.value = value
-        elif os.path.exists(path):
+        self.value = value
+        if not value and os.path.exists(path):
             if do_load:
                 self.load()
                 loaded = True

@@ -23,4 +23,4 @@ class Program:
         for token in tokens:
             print(type(token).__name__ + ': ' + str(token))
             token.apply(self)
-        print(self.stack)
+        self.stack.debug()
