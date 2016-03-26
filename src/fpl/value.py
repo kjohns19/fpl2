@@ -36,7 +36,10 @@ class Value:
             f.write(self.serialize())
 
     def apply(self, program):
-        program.stack.push(self)
+        var = program.tmpdir.get_new()
+        var.value = self
+        var.save()
+        program.stack.push(var)
 
     def __repr__(self):
         return str(self)

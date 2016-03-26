@@ -12,8 +12,8 @@ def create_operator(func):
     num_args = len(inspect.getargspec(func).args)
     def __func(program):
         stack = program.stack
-        args = [ stack.pop() for i in range(num_args) ]
+        args = reversed([ stack.pop().value for i in range(num_args) ])
         result = func(*args)
         if result:
-            stack.push(result)
+            result.apply(program)
     return __func

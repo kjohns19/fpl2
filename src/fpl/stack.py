@@ -6,11 +6,10 @@ import os.path
 import sys
 
 class Stack:
-    def __init__(self, path, tmp):
+    def __init__(self, path):
         self.storage = fpl.storage.Storage(path)
-        self.tmp = tmp
 
-    def pop(self):
+    def pop(self, do_load=True):
         size = self.storage.counter()
         if size.value.value == 0:
             print('ERROR: Trying to pop from empty stack!', file=sys.stderr)
@@ -25,20 +24,19 @@ class Stack:
 
         path = pointer.value.value
         val = fpl.variable.Variable(path)
-        val.load()
-        val.delete()
+        if do_load:
+            val.load()
+        #TODO better check for this
+        if '_tmp' in val.path:
+            val.delete()
         
-        return val.value
+        return val
 
-    def push(self, value):
-        tmp = self.tmp.get_new()
-        tmp.value = value
-        tmp.save()
-
+    def push(self, variable):
         size = self.storage.counter()
 
         pointer = self.storage.get_at(size.value.value)
-        pointer.value = fpl.pointer.Pointer(tmp.path)
+        pointer.value = fpl.pointer.Pointer(variable.path)
         pointer.save()
 
         size.value.value += 1
