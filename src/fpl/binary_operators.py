@@ -1,14 +1,12 @@
 import fpl.operator
+import fpl.utils
 import operator
 
 def __operator(op):
-    def __func(program):
-        stack = program.stack
-        a = stack.pop()
-        b = stack.pop()
-        result = type(a)(op(b.value, a.value))
-        stack.push(result)
-    return __func
+    def __func(a, b):
+        result = op(a.value, b.value)
+        return type(a)(result)
+    return fpl.utils.create_operator(__func)
 
 __operators = {
     '+': operator.add,
