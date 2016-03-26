@@ -1,6 +1,6 @@
 import fpl.tokenizer
 import fpl.stack
-import fpl.number
+import fpl.storage
 import fpl.utils
 import os
 import os.path
@@ -10,7 +10,8 @@ class Program:
         self.path = '_fpl_runtime'
         fpl.utils.clear_path(self.path)
         os.makedirs(self.path)
-        self.stack = fpl.stack.Stack(os.path.join(self.path, '_stack'))
+        self.tmpdir = fpl.storage.Storage(os.path.join(self.path, '_tmp'))
+        self.stack = fpl.stack.Stack(os.path.join(self.path, '_stack'), self.tmpdir)
 
     def run_file(self, filename):
         with open(filename, 'r') as f:

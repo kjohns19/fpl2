@@ -17,7 +17,14 @@ class Storage:
             do_load=True, do_save=True)
         return counter
 
-    def get(self, count):
+    def get_at(self, count):
         varpath = os.path.join(self.path, str(count))
         var = fpl.variable.Variable(varpath)
+        return var
+
+    def get_new(self):
+        counter = self.counter()
+        var = self.get_at(counter.value.value)
+        counter.value.value += 1
+        counter.save()
         return var
