@@ -16,3 +16,12 @@ __operators = {
 }
 for op, func in __operators.items():
     fpl.operator.Operator.add_operator(op, __operator(func))
+
+
+def __assign(program):
+    stack = program.stack
+    value = stack.pop()
+    dest = stack.pop(do_load=False)
+    dest.value = value.value
+    dest.save()
+fpl.operator.Operator.add_operator('=', __assign)
