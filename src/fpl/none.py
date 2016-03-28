@@ -15,6 +15,9 @@ class NoneType(fpl.value.Value):
     def __init__(self):
         pass
 
+    def is_true(self):
+        return False
+
     def __str__(self):
         return ''
 

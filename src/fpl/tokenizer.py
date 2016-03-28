@@ -2,7 +2,6 @@ import fpl.operator
 import fpl.number
 import fpl.symbol
 import fpl.none
-import fpl.bool
 
 class Tokenizer:
     def __init__(self):
@@ -10,8 +9,8 @@ class Tokenizer:
 
     __constants = {
         'none':  fpl.none.NoneType.value(),
-        'true':  fpl.bool.Bool.true_value(),
-        'false': fpl.bool.Bool.false_value()
+        'true':  fpl.number.Number(1),
+        'false': fpl.number.Number(0)
     }
     def tokenize_one(self, token):
         constant = Tokenizer.__constants.get(token)

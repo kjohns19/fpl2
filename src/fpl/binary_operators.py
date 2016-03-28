@@ -12,7 +12,13 @@ __operators = {
     '+': operator.add,
     '-': operator.sub,
     '*': operator.mul,
-    '/': operator.floordiv
+    '/': operator.floordiv,
+    '==': operator.eq,
+    '!=': operator.ne,
+    '<': operator.lt,
+    '>': operator.gt,
+    '<=': operator.le,
+    '>=': operator.ge,
 }
 for op, func in __operators.items():
     fpl.operator.Operator.add_operator(op, __operator(func))

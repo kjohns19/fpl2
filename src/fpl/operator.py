@@ -18,7 +18,7 @@ class Operator(fpl.value.Value):
         self.func(program)
 
     def __init__(self, symbol, func):
-        self.symbol = symbol;
+        self.symbol = symbol
         self.func = func
 
     def __str__(self):

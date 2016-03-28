@@ -41,6 +41,9 @@ class Value:
         var.save()
         program.stack.push(var)
 
+    def is_true(self):
+        return True
+
     def __repr__(self):
         return str(self)
 
