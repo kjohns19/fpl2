@@ -44,3 +44,8 @@ class Program:
             print(type(current.value).__name__ + ': ' + str(current.value))
             current.value.apply(self)
         self.stack.debug()
+
+    def goto(self, address):
+        counter = self.code.counter()
+        counter.value.value = address
+        counter.save()

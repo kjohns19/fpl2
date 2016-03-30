@@ -1,6 +1,7 @@
 import fpl.program
 import fpl.binary_operators
 import fpl.unary_operators
+import fpl.jump
 
 import argparse
 import sys
