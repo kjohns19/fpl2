@@ -45,7 +45,7 @@ class Program:
             current.value.apply(self)
         self.stack.debug()
 
-    def goto(self, address):
+    def jump(self, amount):
         counter = self.code.counter()
-        counter.value.value = address
+        counter.value.value += amount
         counter.save()
