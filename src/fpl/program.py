@@ -1,4 +1,5 @@
 import fpl.tokenizer
+import fpl.parser
 import fpl.stack
 import fpl.storage
 import fpl.utils
@@ -22,8 +23,9 @@ class Program:
     def run_code(self, code):
         tokenizer = fpl.tokenizer.Tokenizer()
         tokens = tokenizer.tokenize(code)
+        parsed = fpl.parser.Parser().parse(tokens)
         savecounter = self.code.counter()
-        for token in tokens:
+        for token in parsed:
             var = self.code.get_new()
             var.value = token
             var.save()
