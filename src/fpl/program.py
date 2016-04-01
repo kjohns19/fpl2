@@ -33,7 +33,9 @@ class Program:
         self.run_program()
 
     def run_program(self):
-        while True:
+        total = 0
+        limit = 1000
+        while total < limit:
             counter = self.code.counter()
             current = self.code.get_at(counter.value.value)
             if os.path.isfile(current.path):
@@ -45,6 +47,9 @@ class Program:
 
             print(type(current.value).__name__ + ': ' + str(current.value))
             current.value.apply(self)
+            total += 1
+        if total == limit:
+            print('Possible infinite loop!')
         self.stack.debug()
 
     def jump(self, amount):
