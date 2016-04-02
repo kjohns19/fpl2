@@ -3,13 +3,14 @@ import fpl.symbol
 import sys
 
 class Parser:
-    def __init__(self):
-        pass
+    def __init__(self, debug):
+        self.debug = debug
 
     def parse(self, tokenization):
         parsed, index = self.__parse(tokenization)
         expanded = parsed.expand()
-        print(expanded)
+        if self.debug:
+            print(expanded)
         return expanded
 
     def __parse_if(self, tokenization, index):

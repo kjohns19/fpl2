@@ -8,7 +8,7 @@ import sys
 
 def main():
     args = parse_arguments()
-    program = fpl.program.Program()
+    program = fpl.program.Program(args.path, args.debug)
     if args.program:
         program.run_file(args.program)
     elif args.command:
@@ -25,7 +25,15 @@ def parse_arguments():
     parser.add_argument(
             '-c', '--command',
             help='run a script from the command line')
+    parser.add_argument(
+            '-d', '--debug', action='store_true',
+            help='run in debug mode (prints tokens as they are read, prints stack)')
+    parser.add_argument(
+            '-p', '--path',
+            help='fpl runtime path. Defaults to ./_fpl_runtime')
     args = parser.parse_args()
+    if not args.path:
+        args.path = '_fpl_runtime'
     return args
 
 if __name__ == '__main__':
