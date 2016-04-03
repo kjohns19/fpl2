@@ -15,3 +15,8 @@ fpl.operator.Operator.add_operator('ref', __ref)
 def __deref(value):
     return fpl.symbol.Symbol(value.value)
 fpl.operator.Operator.add_operator('deref', fpl.utils.create_operator(__deref))
+
+def __get(program):
+    value = fpl.number.Number(int(input()))
+    value.apply(program)
+fpl.operator.Operator.add_operator('get', __get)

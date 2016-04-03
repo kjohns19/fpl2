@@ -8,7 +8,7 @@ class Tokenizer:
         pass
 
     __constants = {
-        'none':  fpl.none.NoneType.value(),
+        'none':  fpl.none.NoneType.singleton(),
         'true':  fpl.number.Number(1),
         'false': fpl.number.Number(0)
     }

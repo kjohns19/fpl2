@@ -1,3 +1,4 @@
+import fpl.none
 import fpl.number
 import fpl.operator
 
@@ -20,7 +21,7 @@ class Block(Node):
         return sum([node.expand() for node in self.nodes], [])
 
 
-class NodeThen(Node):
+class NodeIf(Node):
     def __init__(self, condition, ifnode, elsenode=None):
         self.condition = condition
         self.ifnode = ifnode
@@ -62,3 +63,19 @@ class NodeWhile(Node):
         ]
         return condition + jmpnif + whilenode + jmp
 
+class NodeFunction(Node):
+    def __init__(self, code):
+        self.code = code
+
+    def expand(self):
+        code = self.code.expand()
+        fun = [ fpl.operator.Operator.get_operator('fun') ]
+        jmp = [
+            fpl.number.Number(len(code)+2),
+            fpl.operator.Operator.get_operator('jmp')
+        ]
+        ret = [
+            fpl.none.NoneType.singleton(),
+            fpl.operator.Operator.get_operator('return')
+        ]
+        return fun + jmp + code + ret

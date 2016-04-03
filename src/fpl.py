@@ -1,14 +1,17 @@
 import fpl.program
 import fpl.binary_operators
 import fpl.unary_operators
+import fpl.function_operators
 import fpl.jump
+import fpl.function
 
 import argparse
 import sys
+import os.path
 
 def main():
     args = parse_arguments()
-    program = fpl.program.Program(args.path, args.debug)
+    program = fpl.program.Program(args.path, args.debug, args.limit)
     if args.program:
         program.run_file(args.program)
     elif args.command:
@@ -31,9 +34,16 @@ def parse_arguments():
     parser.add_argument(
             '-p', '--path',
             help='fpl runtime path. Defaults to ./_fpl_runtime')
+    parser.add_argument(
+            '-l', '--limit', type=int,
+            help='limit the number of commands to run. Set to < 1 to disable')
     args = parser.parse_args()
     if not args.path:
         args.path = '_fpl_runtime'
+    if not args.limit:
+        args.limit = 0
+    if args.program:
+        args.program = os.path.abspath(args.program)
     return args
 
 if __name__ == '__main__':

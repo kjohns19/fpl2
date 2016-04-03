@@ -3,17 +3,17 @@ import fpl.value
 class NoneType(fpl.value.Value):
     @staticmethod
     def deserialize(data):
-        return NoneType.value()
+        return NoneType.singleton()
 
     __singleton = None
     @classmethod
-    def value(cls):
+    def singleton(cls):
         if cls.__singleton is None:
             cls.__singleton = NoneType()
         return cls.__singleton
 
     def __init__(self):
-        pass
+        self.value = None
 
     def is_true(self):
         return False
