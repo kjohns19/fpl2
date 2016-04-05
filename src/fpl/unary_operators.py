@@ -4,7 +4,7 @@ import fpl.pointer
 import fpl.symbol
 
 def __print(value):
-    print(value.value)
+    value.print()
 fpl.operator.Operator.add_operator('print', fpl.utils.create_operator(__print))
 
 def __ref(program):
@@ -20,3 +20,8 @@ def __get(program):
     value = fpl.number.Number(int(input()))
     value.apply(program)
 fpl.operator.Operator.add_operator('get', __get)
+
+def __delete(program):
+    value = program.stack.pop(do_load=False)
+    fpl.utils.clear_path(value.path)
+fpl.operator.Operator.add_operator('delete', __delete)

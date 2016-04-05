@@ -10,7 +10,6 @@ class Function(fpl.value.Value):
         split = data.split('\n')
         args = list(reversed(split[0].split()))
         code_start = int(split[1])
-        #print('Args: <' + '>, <'.join(args) + '>, code_start: ' + str(code_start))
         return Function(args, code_start)
 
     def __init__(self, args, code_start):
@@ -28,6 +27,9 @@ class Function(fpl.value.Value):
         savepos = fpl.variable.Variable('_return', fpl.number.Number(program.counter()))
         savepos.save()
         program.goto(self.code_start)
+
+    def print(self):
+        print('<function>')
 
     def __str__(self):
         return ' '.join(reversed(self.args)) + '\n' + str(self.code_start)

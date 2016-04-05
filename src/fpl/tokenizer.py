@@ -2,6 +2,8 @@ import fpl.operator
 import fpl.number
 import fpl.symbol
 import fpl.none
+import fpl.object
+import os.path
 
 class Tokenizer:
     def __init__(self):
@@ -10,7 +12,8 @@ class Tokenizer:
     __constants = {
         'none':  fpl.none.NoneType.singleton(),
         'true':  fpl.number.Number(1),
-        'false': fpl.number.Number(0)
+        'false': fpl.number.Number(0),
+        'obj':   fpl.object.Object()
     }
     def tokenize_one(self, token):
         constant = Tokenizer.__constants.get(token)
@@ -25,7 +28,8 @@ class Tokenizer:
             val = int(token)
             return fpl.number.Number(val)
         except ValueError:
-            return fpl.symbol.Symbol(token)
+            path = os.path.join(*token.split('.'))
+            return fpl.symbol.Symbol(path)
 
     def tokenize(self, code):
         return [ self.tokenize_one(token) for token in code.split() ]

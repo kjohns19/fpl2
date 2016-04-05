@@ -41,7 +41,7 @@ def parse_arguments():
     if not args.path:
         args.path = '_fpl_runtime'
     if not args.limit:
-        args.limit = 0
+        args.limit = 1000 #TODO remove this later
     if args.program:
         args.program = os.path.abspath(args.program)
     return args

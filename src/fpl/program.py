@@ -47,7 +47,7 @@ class Program:
             if counter.value.value < 0:
                 break
             current = self.code.get_at(counter.value.value)
-            if os.path.isfile(current.path):
+            if os.path.isfile(current.path) or os.path.isdir(current.path):
                 current.load()
             else:
                 break

@@ -1,6 +1,8 @@
 import fpl.operator
 import fpl.utils
+import fpl.symbol
 import operator
+import os.path
 
 def __operator(op):
     def __func(a, b):
@@ -31,3 +33,11 @@ def __assign(program):
     dest.value = value.value
     dest.save()
 fpl.operator.Operator.add_operator('=', __assign)
+
+def __at(program):
+    stack = program.stack
+    value = stack.pop()
+    obj = stack.pop(do_load=False)
+    var = fpl.variable.Variable(os.path.join(obj.path, str(value.value)))
+    stack.push(var)
+fpl.operator.Operator.add_operator('at', __at)

@@ -24,8 +24,9 @@ class Value:
                 data = f.read()
                 return Value.deserialize(data)
         elif os.path.isdir(filename):
-            #TODO create object
-            pass
+            obj = fpl.object.Object()
+            obj.load(filename)
+            return obj
         else:
             print('Invalid filename: ' + filename)
             return None
@@ -40,6 +41,9 @@ class Value:
         var.value = self
         var.save()
         program.stack.push(var)
+
+    def print(self):
+        print(self.value)
 
     def is_true(self):
         return True
