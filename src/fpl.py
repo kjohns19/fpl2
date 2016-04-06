@@ -1,8 +1,5 @@
 import fpl.program
-import fpl.binary_operators
-import fpl.unary_operators
-import fpl.function_operators
-import fpl.jump
+import fpl.operators
 import fpl.function
 
 import argparse

@@ -14,6 +14,7 @@ class Program:
         os.makedirs(self.path)
         os.chdir(self.path)
         self.tmpdir = fpl.storage.Storage(os.path.abspath('_tmp'))
+        self.heap = fpl.storage.Storage(os.path.abspath('_heap'))
         self.stack = fpl.stack.Stack(os.path.abspath('_stack'))
         self.code = fpl.storage.Storage(os.path.abspath('_code'))
         self.debug = debug
