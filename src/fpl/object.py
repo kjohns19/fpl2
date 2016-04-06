@@ -18,6 +18,9 @@ class Object(fpl.value.Value):
             value = fpl.value.Value.load(path)
             value.save(newpath)
 
+    def __str__(self):
+        return 'obj'
+
     def print(self):
         print('<object>')
 

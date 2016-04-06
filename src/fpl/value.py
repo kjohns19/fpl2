@@ -51,5 +51,8 @@ class Value:
     def __repr__(self):
         return str(self)
 
+    def __str__(self):
+        return '<' + type(self).__name__ + '>'
+
     def serialize(self):
         return type(self).__name__ + '\n' + str(self)
