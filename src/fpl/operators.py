@@ -3,16 +3,19 @@ import fpl.utils
 import fpl.variable
 import fpl.number
 import fpl.pointer
+import fpl.string
 import fpl.symbol
 import operator
 import os.path
 import random
+import sys
 
 # Basic binary (arithmetic, boolean, etc)
 __result_types = {
     int:   fpl.number.Number,
     float: fpl.number.Number,
-    bool:  fpl.number.Number
+    bool:  fpl.number.Number,
+    str:   fpl.string.String
 }
 def __operator(op):
     def __func(a, b):
@@ -43,10 +46,9 @@ for op, func in __operators.items():
 
 
 # Input/Output
-def __get(program):
-    value = fpl.number.Number(int(input()))
-    value.apply(program)
-fpl.operator.Operator.add_operator('get', __get)
+def __get():
+    return fpl.string.String(input())
+fpl.operator.Operator.add_operator('get', fpl.utils.create_operator(__get))
 
 def __print(value):
     value.print()
@@ -113,6 +115,17 @@ def __return(program):
 fpl.operator.Operator.add_operator('return', __return)
 
 
+
+# Conversions
+
+def __num(value):
+    #TODO check for exception here
+    return fpl.number.Number(int(value.value))
+fpl.operator.Operator.add_operator('num', fpl.utils.create_operator(__num))
+
+def __str(value):
+    return fpl.string.String(str(value))
+fpl.operator.Operator.add_operator('str', fpl.utils.create_operator(__str))
 
 # Other
 def __assign(program):
