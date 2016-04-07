@@ -136,6 +136,6 @@ def __delete(program):
     fpl.utils.clear_path(value.path)
 fpl.operator.Operator.add_operator('delete', __delete)
 
-def __rand(value):
-    return fpl.number.Number(random.randint(0, value.value))
+def __rand(min, max):
+    return fpl.number.Number(random.randint(min.value, max.value))
 fpl.operator.Operator.add_operator('rand', fpl.utils.create_operator(__rand))

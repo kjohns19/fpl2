@@ -1,13 +1,23 @@
 import fpl.operator
 import fpl.number
 import fpl.symbol
+import fpl.string
 import fpl.none
 import fpl.object
 import os.path
+import re
 
 class Tokenizer:
     def __init__(self):
         pass
+
+    __str_rep = {
+        '\\n': '\n',
+        '\\t': '\t',
+        '\\\'': '\'',
+        '\\"': '"',
+    }
+    __str_rep_pattern = re.compile('|'.join(re.escape(k) for k in __str_rep.keys()))
 
     __constants = {
         'none':  fpl.none.NoneType.singleton(),
@@ -16,6 +26,9 @@ class Tokenizer:
         'obj':   fpl.object.Object()
     }
     def tokenize_one(self, token):
+        if token[0] == '"' and token[-1] == '"':
+            return fpl.string.String(token[1:-1])
+
         constant = Tokenizer.__constants.get(token)
         if constant:
             return constant
@@ -31,5 +44,19 @@ class Tokenizer:
             path = os.path.join(*token.split('.'))
             return fpl.symbol.Symbol(path)
 
+    def tokenize_string(self, token):
+        subfunc = lambda m: Tokenizer.__str_rep[m.group(0)]
+        text = Tokenizer.__str_rep_pattern.sub(subfunc, token)
+        return fpl.string.String(text)
+
+
     def tokenize(self, code):
-        return [ self.tokenize_one(token) for token in code.split() ]
+        inquote = False
+        result = []
+        for part in re.split(r'(?<!\\)"', code):
+            if inquote:
+                result.append(self.tokenize_string(part))
+            else:
+                result += [ self.tokenize_one(token) for token in part.split() ]
+            inquote = not inquote
+        return result
