@@ -1,0 +1,26 @@
+fib i fibptr 2 fun
+    if i 0 == then
+        0 return
+    else
+        if i 1 == then
+            1 return
+        else
+            i 1 - fibptr fibptr deref call i 2 - fibptr fibptr deref call + return
+        end
+    end
+end =
+
+fastfib a b n fibptr 4 fun
+    if n 0 == then
+        a return
+    end
+    b a b + n 1 - fibptr fibptr deref call return
+end =
+
+"Enter a number:" print
+n get =
+
+"Slow fib:" print
+n fib ref fib call print
+"Fast fib:" print
+0 1 n fastfib ref fastfib call print
