@@ -1,5 +1,6 @@
 import fpl.program
 import fpl.operators
+import fpl.error
 import fpl.function
 
 import argparse
@@ -9,13 +10,21 @@ import os.path
 def main():
     args = parse_arguments()
     program = fpl.program.Program(args.path, args.debug, args.limit)
-    if args.program:
-        program.run_file(args.program)
-    elif args.command:
-        program.run_code(args.command)
-    else:
-        for line in sys.stdin:
-            program.run_code(line)
+    try:
+        if args.program:
+            program.run_file(args.program)
+        elif args.command:
+            program.run_code(args.command)
+        else:
+            for line in sys.stdin:
+                program.run_code(line)
+    except fpl.error.Error as e:
+        print('Error occurred: ' + str(e))
+        print('Backtrace: ' + str(program.backtrace()))
+    except Exception as e:
+        print('Python exception occurred while running')
+        print('Backtrace: ' + str(program.backtrace()))
+        raise e
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description='fpl interpreter')

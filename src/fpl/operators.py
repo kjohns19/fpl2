@@ -1,5 +1,6 @@
 import fpl.operator
 import fpl.utils
+import fpl.error
 import fpl.variable
 import fpl.number
 import fpl.pointer
@@ -22,9 +23,8 @@ def __operator(op):
         result = op(a.value, b.value)
         result_type = __result_types.get(type(result))
         if not result_type:
-            #TODO throw exception here
-            print('ERROR: Invalid result type ' + str(type(result)) + ' from operator ' + str(op), file=sys.stderr)
-            return fpl.number.NoneType.singleton()
+            err = 'Invalid result type ' + str(type(result)) + ' from operator ' + str(op)
+            raise fpl.error.Error(err)
         return result_type(result)
     return fpl.utils.create_operator(__func)
 
@@ -119,7 +119,6 @@ fpl.operator.Operator.add_operator('return', __return)
 # Conversions
 
 def __num(value):
-    #TODO check for exception here
     return fpl.number.Number(int(value.value))
 fpl.operator.Operator.add_operator('num', fpl.utils.create_operator(__num))
 

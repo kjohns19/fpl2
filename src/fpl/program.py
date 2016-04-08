@@ -74,6 +74,17 @@ class Program:
         #print('Return value: <' + str(return_value) + '>')
         return_value.apply(self)
 
+    def backtrace(self):
+        trace = []
+        path = os.getcwd()
+        counter = self.counter()
+        while counter != -1:
+            trace.append(counter-1)
+            varpath = os.path.join(path, '_return')
+            counter = fpl.variable.Variable(varpath).load().value
+            path = os.path.dirname(path)
+        return trace
+
     def jump(self, amount):
         counter = self.code.counter()
         counter.value.value += amount

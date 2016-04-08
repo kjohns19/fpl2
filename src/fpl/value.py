@@ -1,4 +1,5 @@
 import fpl.utils
+import fpl.error
 import importlib
 import os.path
 
@@ -12,9 +13,7 @@ class Value:
         classname, args = data.split('\n', 1)
         cls = Value.__types.get(classname)
         if cls is None:
-            #TODO error
-            print('Invalid type: ' + classname)
-            return None
+            raise fpl.error.Error('Invalid type: ' + classname)
         return cls.deserialize(args)
 
     @staticmethod
@@ -28,8 +27,7 @@ class Value:
             obj.load(filename)
             return obj
         else:
-            print('Invalid filename: ' + filename)
-            return None
+            raise fpl.error.Error('Invalid filename: ' + filename)
 
     def save(self, filename):
         fpl.utils.clear_path(filename)

@@ -1,5 +1,6 @@
 import fpl.value
 import fpl.utils
+import fpl.error
 import os.path
 import sys
 
@@ -19,12 +20,7 @@ class Variable:
             self.save()
 
     def load(self):
-        if os.path.exists(self.path):
-            self.value = fpl.value.Value.load(self.path)
-        else:
-            #TODO maybe throw something here
-            print('ERROR: Path ' + self.path + ' does not exist', file=sys.stderr)
-            self.value = None
+        self.value = fpl.value.Value.load(self.path)
         return self.value
 
     def save(self):
