@@ -19,14 +19,10 @@ class Function(fpl.value.Value):
     def call(self, program):
         stack = program.stack
         arguments = [stack.pop().value for i in range(len(self.args))]
-        os.makedirs('_')
-        os.chdir('_')
+        program.jump_change_dir('_', self.code_start)
         for arg, name in zip(arguments, self.args):
             var = fpl.variable.Variable(name, arg)
             var.save()
-        savepos = fpl.variable.Variable('_return', fpl.number.Number(program.counter()))
-        savepos.save()
-        program.goto(self.code_start)
 
     def print(self):
         print('<function>')

@@ -9,7 +9,9 @@ import os.path
 
 class Program:
     def __init__(self, path, debug, limit):
-        self.path = path
+        self.path = os.path.abspath(path)
+        self.debug = debug
+        self.limit = limit
         fpl.utils.clear_path(self.path)
         os.makedirs(self.path)
         os.chdir(self.path)
@@ -17,12 +19,8 @@ class Program:
         self.heap = fpl.storage.Storage(os.path.abspath('_heap'))
         self.stack = fpl.stack.Stack(os.path.abspath('_stack'))
         self.code = fpl.storage.Storage(os.path.abspath('_code'))
-        self.debug = debug
-        self.limit = limit
-        os.makedirs('_')
-        os.chdir('_')
-        ret = fpl.variable.Variable('_return', fpl.number.Number(-1))
-        ret.save()
+        self.goto(-1)
+        self.jump_change_dir('_', 0)
 
     def run_file(self, filename):
         with open(filename, 'r') as f:
@@ -84,6 +82,17 @@ class Program:
             counter = fpl.variable.Variable(varpath).load().value
             path = os.path.dirname(path)
         return trace
+
+    def jump_change_dir(self, path, counter):
+        cur = fpl.variable.Variable(os.path.join(self.path, '_current'))
+        cur.value = fpl.pointer.Pointer(path)
+        cur.save()
+        os.makedirs(path)
+        os.chdir(path)
+        ret = fpl.variable.Variable('_return', fpl.number.Number(self.counter()))
+        ret.save()
+        self.goto(counter)
+        
 
     def jump(self, amount):
         counter = self.code.counter()

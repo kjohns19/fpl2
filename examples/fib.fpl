@@ -18,7 +18,7 @@ fastfib a b n fibptr 4 fun
 end =
 
 "Enter a number:" print
-n get =
+n get num =
 
 "Slow fib:" print
 n fib ref fib call print
