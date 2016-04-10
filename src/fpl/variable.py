@@ -29,3 +29,6 @@ class Variable:
 
     def delete(self):
         fpl.utils.clear_path(self.path)
+
+    def is_tmp(self):
+        return '/_tmp/' in self.path

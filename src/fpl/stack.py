@@ -1,6 +1,7 @@
 import fpl.storage
 import fpl.variable
 import fpl.pointer
+import fpl.error
 import os
 import os.path
 import sys
@@ -12,8 +13,7 @@ class Stack:
     def pop(self, do_load=True):
         size = self.storage.counter()
         if size.value.value == 0:
-            print('ERROR: Trying to pop from empty stack!', file=sys.stderr)
-            return None
+            raise fpl.error.Error('Trying to pop from empty stack')
 
         size.value.value -= 1
         size.save()
@@ -26,8 +26,7 @@ class Stack:
         val = fpl.variable.Variable(path)
         if do_load:
             val.load()
-        #TODO better check for this
-        if '_tmp' in val.path:
+        if val.is_tmp():
             val.delete()
         
         return val
