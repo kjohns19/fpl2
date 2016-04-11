@@ -27,6 +27,8 @@ class Stack:
         if do_load:
             val.load()
         if val.is_tmp():
+            if isinstance(val.value, fpl.object.Object):
+                val.value.load_all()
             val.delete()
         
         return val

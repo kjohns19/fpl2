@@ -10,12 +10,19 @@ class Object(fpl.value.Value):
     def load(self, path):
         self.value = {path: None for path in glob.glob(os.path.join(path, '*'))}
 
+    def load_all(self):
+        for path in self.value.keys():
+            value = fpl.value.Value.load(path)
+            if isinstance(value, Object):
+                value.load_all()
+            self.value[path] = value
+
     def save(self, filename):
         fpl.utils.clear_path(filename)
         os.mkdir(filename)
         for path, value in self.value.items():
             newpath = os.path.join(filename, os.path.basename(path))
-            value = fpl.value.Value.load(path)
+            value = value or fpl.value.Value.load(path)
             value.save(newpath)
 
     def __str__(self):

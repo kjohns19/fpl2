@@ -67,10 +67,9 @@ class Program:
         return_point = fpl.variable.Variable('_return', do_load=True)
         return_value = self.stack.pop().value
         self.goto(return_point.value.value)
+        return_value.apply(self)
         os.chdir('..')
         fpl.utils.clear_path('_')
-        #print('Return value: <' + str(return_value) + '>')
-        return_value.apply(self)
 
     def backtrace(self):
         trace = []
