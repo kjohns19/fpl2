@@ -7,7 +7,7 @@ import sys
 class Storage:
     def __init__(self, path):
         self.path = path
-        os.makedirs(path)
+        os.makedirs(path, exist_ok=True)
         self.counter()
 
     def counter(self):

@@ -17,7 +17,6 @@ class Program:
         os.chdir(self.path)
         self.tmpdir = fpl.storage.Storage(os.path.abspath('_tmp'))
         self.heap = fpl.storage.Storage(os.path.abspath('_heap'))
-        self.stack = fpl.stack.Stack(os.path.abspath('_stack'))
         self.code = fpl.storage.Storage(os.path.abspath('_code'))
         self.goto(-1)
         self.jump_change_dir('_', 0)
@@ -67,6 +66,7 @@ class Program:
         return_point = fpl.variable.Variable('_return', do_load=True)
         return_value = self.stack.pop().value
         self.goto(return_point.value.value)
+        self.stack = fpl.stack.Stack(os.path.abspath('../_stack'))
         return_value.apply(self)
         os.chdir('..')
         fpl.utils.clear_path('_')
@@ -91,6 +91,7 @@ class Program:
         ret = fpl.variable.Variable('_return', fpl.number.Number(self.counter()))
         ret.save()
         self.goto(counter)
+        self.stack = fpl.stack.Stack(os.path.abspath('_stack'))
         
 
     def jump(self, amount):
