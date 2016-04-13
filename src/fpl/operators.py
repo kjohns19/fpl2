@@ -184,3 +184,8 @@ def __rand(min, max):
         __expect_type('rand', val, fpl.number.Number)
     return fpl.number.Number(random.randint(min.value, max.value))
 fpl.operator.Operator.add_operator('rand', fpl.utils.create_operator(__rand))
+
+def __seed(value):
+    __expect_type('seed', value, fpl.number.Number)
+    random.seed(value.value)
+fpl.operator.Operator.add_operator('seed', fpl.utils.create_operator(__seed))
