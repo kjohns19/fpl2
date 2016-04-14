@@ -1,0 +1,79 @@
+qsort qsortptr arr cmp 3 fun
+    start_size arr deref "size" at =
+    if start_size 1 <= then
+        none return
+    end
+
+    partition arr pivot left right cmp 5 fun
+        size arr deref "size" at =
+        i 0 =
+        while i size < do
+            current arr deref i at =
+            val pivot current cmp deref call =
+            if val 0 < then
+                dest left =
+            else
+                dest right =
+            end
+            sz dest deref "size" at =
+            dest deref sz at current =
+            dest deref "size" at sz 1 + =
+            i i 1 + =
+        end
+    end =
+
+    pivot arr deref start_size 1 - at =
+    arr deref "size" at start_size 1 - =
+
+    left obj =
+    left.size 0 =
+    right obj =
+    right.size 0 =
+
+    arr pivot left ref right ref cmp partition call
+    qsortptr left ref cmp qsortptr deref call
+    qsortptr right ref cmp qsortptr deref call
+
+    i 0 =
+    while i left.size < do
+        arr deref i at left i at =
+        i i 1 + =
+    end
+    arr deref i at pivot =
+    j 0 =
+    while j right.size < do
+        i i 1 + =
+        arr deref i at right j at =
+        j j 1 + =
+    end
+    arr deref "size" at start_size =
+end =
+
+cmp a b 2 fun
+    a b - return
+end =
+
+arr obj =
+arr.size 0 =
+
+0 seed
+
+"Enter number of values to add:" print
+size get num =
+"Adding " size str + " values" + print
+while arr.size size < do
+    value 0 1000 rand =
+    value print
+    arr arr.size at value =
+    arr.size arr.size 1 + =
+end
+
+"Sorting..." print
+qsort ref arr ref cmp ref qsort call
+
+"Printing..." print
+i 0 =
+while i arr.size < do
+    arr i at print
+    i i 1 + =
+end

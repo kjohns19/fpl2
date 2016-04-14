@@ -1,58 +1,83 @@
-insert insptr nodeptr value cmpptr 4 fun
-    if nodeptr deref none == then
-        newnode heap =
-        newnode deref obj =
-        newnode deref "value" at value =
-        newnode deref "left" at none =
-        newnode deref "right" at none =
-        nodeptr deref newnode =
-        none return
+bstsort arr cmp 2 fun
+    insert insptr nodeptr value cmpptr 4 fun
+        if nodeptr deref none == then
+            newnode heap =
+            newnode deref obj =
+            newnode deref "value" at value =
+            newnode deref "left" at none =
+            newnode deref "right" at none =
+            nodeptr deref newnode =
+            none return
+        end
+        node nodeptr deref =
+        cmp value node deref "value" at cmpptr deref call =
+        if cmp 0 < then
+            insptr node deref "left" at ref value cmpptr insptr deref call
+            none return
+        end
+        if cmp 0 > then
+            insptr node deref "right" at ref value cmpptr insptr deref call
+            none return
+        end
+    end =
+
+    visit_tree vstptr arr node 3 fun
+        if node none != then
+            vstptr arr node deref "left" at vstptr deref call
+            sz arr deref "size" at =
+            arr deref sz at node deref "value" at =
+            arr deref "size" at sz 1 + =
+            vstptr arr node deref "right" at vstptr deref call
+        end
+    end =
+
+    delete_tree delptr node 2 fun
+        if node none != then
+            delptr node deref "left" at delptr deref call
+            delptr node deref "right" at delptr deref call
+            node deref delete
+        end
+    end =
+
+    root none =
+    
+    i 0 =
+    sz arr deref "size" at =
+    while i sz < do
+        insert ref root ref arr deref i at cmp insert call
+        i i 1 + =
     end
-    node nodeptr deref =
-    cmp value node deref "value" at cmpptr deref call =
-    if cmp 0 < then
-        insptr node deref "left" at ref value cmpptr insptr deref call
-        none return
-    end
-    if cmp 0 > then
-        insptr node deref "right" at ref value cmpptr insptr deref call
-        none return
-    end
+
+    arr deref "size" at 0 =
+    visit_tree ref arr root visit_tree call
+    delete_tree ref root delete_tree call
 end =
 
-print_tree prnptr node 2 fun
-    if node none != then
-        prnptr node deref "left" at prnptr deref call
-        node deref "value" at print
-        prnptr node deref "right" at prnptr deref call
-    end
+cmp a b 2 fun
+    a b - return
 end =
 
-delete_tree delptr node 2 fun
-    if node none != then
-        delptr node deref "left" at delptr deref call
-        delptr node deref "right" at delptr deref call
-        node deref delete
-    end
-end =
+arr obj =
+arr.size 0 =
 
-cmpfunc a b 2 fun
-    b a - return
-end =
-
-root none =
+0 seed
 
 "Enter number of values to add:" print
 size get num =
 "Adding " size str + " values" + print
-i 0 =
-while i size < do
-    value 0 100 rand =
+while arr.size size < do
+    value 0 1000 rand =
     value print
-    insert ref root ref value cmpfunc ref insert call
-    i i 1 + =
+    arr arr.size at value =
+    arr.size arr.size 1 + =
 end
 
-"Printing tree" print
-print_tree ref root print_tree call
-delete_tree ref root delete_tree call
+"Sorting..." print
+arr ref cmp ref bstsort call
+
+"Printing..." print
+i 0 =
+while i arr.size < do
+    arr i at print
+    i i 1 + =
+end
