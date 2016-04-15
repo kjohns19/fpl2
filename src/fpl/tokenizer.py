@@ -51,12 +51,21 @@ class Tokenizer:
 
 
     def tokenize(self, code):
-        inquote = False
         result = []
-        for part in re.split(r'(?<!\\)"', code):
-            if inquote:
-                result.append(self.tokenize_string(part))
-            else:
-                result += [ self.tokenize_one(token) for token in part.split() ]
-            inquote = not inquote
+        for line in code.splitlines():
+            inquote = False
+            for part in re.split(r'(?<!\\)"', line):
+                skiprest = False
+                if inquote:
+                    result.append(self.tokenize_string(part))
+                else:
+                    if '#' in part:
+                        part = part[0:part.index('#')]
+                        skiprest = True
+                    result += [ self.tokenize_one(token) for token in part.split() ]
+                inquote = not inquote
+                if skiprest:
+                    break
+            if not inquote:
+                raise fpl.error.Error('Expected "')
         return result
