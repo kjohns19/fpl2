@@ -1,6 +1,4 @@
-import fpl.none
-import fpl.number
-import fpl.operator
+import fpl.value
 
 class Node:
     def __init__(self, value):
@@ -33,14 +31,14 @@ class NodeIf(Node):
         elsecode = self.elsenode.expand() if self.elsenode else []
         jmpamount = len(ifcode) + (2 if elsecode else 0)
         jmpnif = [
-            fpl.number.Number(jmpamount),
-            fpl.operator.Operator.get_operator('jmpnif')
+            fpl.value.Number(jmpamount),
+            fpl.value.Operator.get_operator('jmpnif')
         ]
         code = condition + jmpnif + ifcode
         if elsecode:
             jmp = [
-                fpl.number.Number(len(elsecode)),
-                fpl.operator.Operator.get_operator('jmp')
+                fpl.value.Number(len(elsecode)),
+                fpl.value.Operator.get_operator('jmp')
             ]
             code += jmp + elsecode
         return code
@@ -54,12 +52,12 @@ class NodeWhile(Node):
         condition = self.condition.expand()
         whilenode = self.whilenode.expand()
         jmpnif = [
-            fpl.number.Number(len(whilenode)+2),
-            fpl.operator.Operator.get_operator('jmpnif')
+            fpl.value.Number(len(whilenode)+2),
+            fpl.value.Operator.get_operator('jmpnif')
         ]
         jmp = [
-            fpl.number.Number(-(len(condition) + len(whilenode) + 4)),
-            fpl.operator.Operator.get_operator('jmp')
+            fpl.value.Number(-(len(condition) + len(whilenode) + 4)),
+            fpl.value.Operator.get_operator('jmp')
         ]
         return condition + jmpnif + whilenode + jmp
 
@@ -69,13 +67,13 @@ class NodeFunction(Node):
 
     def expand(self):
         code = self.code.expand()
-        fun = [ fpl.operator.Operator.get_operator('fun') ]
+        fun = [ fpl.value.Operator.get_operator('fun') ]
         jmp = [
-            fpl.number.Number(len(code)+2),
-            fpl.operator.Operator.get_operator('jmp')
+            fpl.value.Number(len(code)+2),
+            fpl.value.Operator.get_operator('jmp')
         ]
         ret = [
-            fpl.none.NoneType.singleton(),
-            fpl.operator.Operator.get_operator('return')
+            fpl.value.NoneType.singleton(),
+            fpl.value.Operator.get_operator('return')
         ]
         return fun + jmp + code + ret

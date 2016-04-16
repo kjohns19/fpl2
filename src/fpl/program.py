@@ -3,7 +3,7 @@ import fpl.parser
 import fpl.stack
 import fpl.storage
 import fpl.utils
-import fpl.number
+import fpl.value
 import os
 import os.path
 
@@ -86,14 +86,14 @@ class Program:
 
     def jump_change_dir(self, path, counter):
         cur = fpl.variable.Variable(os.path.join(self.path, '_current'))
-        cur.value = fpl.pointer.Pointer(path)
+        cur.value = fpl.value.Pointer(path)
         cur.save()
         last_path = os.getcwd();
         os.makedirs(path)
         os.chdir(path)
-        ret = fpl.variable.Variable('_return', fpl.number.Number(self.counter()))
+        ret = fpl.variable.Variable('_return', fpl.value.Number(self.counter()))
         ret.save()
-        last = fpl.variable.Variable('$', fpl.pointer.Pointer(last_path))
+        last = fpl.variable.Variable('$', fpl.value.Pointer(last_path))
         last.save()
         self.goto(counter)
         self.stack = fpl.stack.Stack(os.path.abspath('_stack'))

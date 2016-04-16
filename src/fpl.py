@@ -1,7 +1,6 @@
 import fpl.program
 import fpl.operators
 import fpl.error
-import fpl.function
 
 import argparse
 import sys

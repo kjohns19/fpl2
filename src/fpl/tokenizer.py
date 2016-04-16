@@ -1,9 +1,4 @@
-import fpl.operator
-import fpl.number
-import fpl.symbol
-import fpl.string
-import fpl.none
-import fpl.object
+import fpl.value
 import os.path
 import re
 
@@ -20,34 +15,34 @@ class Tokenizer:
     __str_rep_pattern = re.compile('|'.join(re.escape(k) for k in __str_rep.keys()))
 
     __constants = {
-        'none':  fpl.none.NoneType.singleton(),
-        'true':  fpl.number.Number(1),
-        'false': fpl.number.Number(0),
-        'obj':   fpl.object.Object()
+        'none':  fpl.value.NoneType.singleton(),
+        'true':  fpl.value.Number(1),
+        'false': fpl.value.Number(0),
+        'obj':   fpl.value.Object()
     }
     def tokenize_one(self, token):
         if token[0] == '"' and token[-1] == '"':
-            return fpl.string.String(token[1:-1])
+            return fpl.value.String(token[1:-1])
 
         constant = Tokenizer.__constants.get(token)
         if constant:
             return constant
 
-        operator = fpl.operator.Operator.get_operator(token)
+        operator = fpl.value.Operator.get_operator(token)
         if operator:
             return operator
 
         try:
             val = int(token)
-            return fpl.number.Number(val)
+            return fpl.value.Number(val)
         except ValueError:
             path = os.path.join(*token.split('.'))
-            return fpl.symbol.Symbol(path)
+            return fpl.value.Symbol(path)
 
     def tokenize_string(self, token):
         subfunc = lambda m: Tokenizer.__str_rep[m.group(0)]
         text = Tokenizer.__str_rep_pattern.sub(subfunc, token)
-        return fpl.string.String(text)
+        return fpl.value.String(text)
 
 
     def tokenize(self, code):

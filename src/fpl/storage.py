@@ -1,5 +1,5 @@
 import fpl.variable
-import fpl.number
+import fpl.value
 import os
 import os.path
 import sys
@@ -13,7 +13,7 @@ class Storage:
     def counter(self):
         counter = fpl.variable.Variable(
             os.path.join(self.path, 'counter'),
-            default=fpl.number.Number(0),
+            default=fpl.value.Number(0),
             do_load=True, do_save=True)
         return counter
 

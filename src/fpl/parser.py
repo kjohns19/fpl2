@@ -1,5 +1,5 @@
 import fpl.syntax
-import fpl.symbol
+import fpl.value
 import sys
 
 class Parser:
@@ -36,7 +36,7 @@ class Parser:
             token = tokenization[index]
             node = None
 
-            if type(token) is fpl.symbol.Symbol:
+            if type(token) is fpl.value.Symbol:
                 if token.value in stop:
                     return block, index
                 if token.value in ['then', 'do', 'else', 'end']: #TODO don't hardcode this?
@@ -48,7 +48,7 @@ class Parser:
                     node, index = self.__parse_if(tokenization, index=index+1)
                 elif token.value == 'while':
                     node, index = self.__parse_while(tokenization, index=index+1)
-            elif type(token) is fpl.operator.Operator:
+            elif type(token) is fpl.value.Operator:
                 if token.symbol == 'fun':
                     node, index = self.__parse_fun(tokenization, index=index+1)
 

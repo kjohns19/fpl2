@@ -1,6 +1,6 @@
 import fpl.storage
 import fpl.variable
-import fpl.pointer
+import fpl.value
 import fpl.error
 import os
 import os.path
@@ -27,7 +27,7 @@ class Stack:
         if do_load:
             val.load()
         if val.is_tmp():
-            if isinstance(val.value, fpl.object.Object):
+            if isinstance(val.value, fpl.value.Object):
                 val.value.load_all()
             val.delete()
         
@@ -37,7 +37,7 @@ class Stack:
         size = self.storage.counter()
 
         pointer = self.storage.get_at(size.value.value)
-        pointer.value = fpl.pointer.Pointer(variable.path)
+        pointer.value = fpl.value.Pointer(variable.path)
         pointer.save()
 
         size.value.value += 1
