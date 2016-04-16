@@ -1,15 +1,15 @@
-qsort qsortptr arr cmp 3 fun
+qsort arr cmpfun 2 fun
     start_size arr deref "size" at =
     if start_size 1 <= then
         none return
     end
 
-    partition arr pivot left right cmp 5 fun
+    partition arr pivot left right cmpfun 5 fun
         size arr deref "size" at =
         i 0 =
         while i size < do
             current arr deref i at =
-            val pivot current cmp deref call =
+            val pivot current cmpfun call =
             if val 0 < then
                 dest left =
             else
@@ -30,9 +30,10 @@ qsort qsortptr arr cmp 3 fun
     right obj =
     right.size 0 =
 
-    arr pivot left ref right ref cmp partition call
-    qsortptr left ref cmp qsortptr deref call
-    qsortptr right ref cmp qsortptr deref call
+    qsort $ deref "qsort" at =
+    arr pivot left ref right ref cmpfun partition call
+    left ref cmpfun qsort call
+    right ref cmpfun qsort call
 
     i 0 =
     while i left.size < do
@@ -49,7 +50,7 @@ qsort qsortptr arr cmp 3 fun
     arr deref "size" at start_size =
 end =
 
-cmp a b 2 fun
+cmpfun a b 2 fun
     a b - return
 end =
 
@@ -69,7 +70,7 @@ while arr.size size < do
 end
 
 "Sorting..." print
-qsort ref arr ref cmp ref qsort call
+arr ref cmpfun qsort call
 
 "Printing..." print
 i 0 =

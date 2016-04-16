@@ -1,5 +1,5 @@
-bstsort arr cmp 2 fun
-    insert insptr nodeptr value cmpptr 4 fun
+bstsort arr cmpfun 2 fun
+    insert nodeptr value cmpfun 3 fun
         if nodeptr deref none == then
             newnode heap =
             newnode deref obj =
@@ -9,32 +9,35 @@ bstsort arr cmp 2 fun
             nodeptr deref newnode =
             none return
         end
+        insert $ deref "insert" at =
         node nodeptr deref =
-        cmp value node deref "value" at cmpptr deref call =
+        cmp value node deref "value" at cmpfun call =
         if cmp 0 < then
-            insptr node deref "left" at ref value cmpptr insptr deref call
+            node deref "left" at ref value cmpfun insert call
             none return
         end
         if cmp 0 > then
-            insptr node deref "right" at ref value cmpptr insptr deref call
+            node deref "right" at ref value cmpfun insert call
             none return
         end
     end =
 
-    visit_tree vstptr arr node 3 fun
+    visit_tree arr node 2 fun
         if node none != then
-            vstptr arr node deref "left" at vstptr deref call
+            visit_tree $ deref "visit_tree" at =
+            arr node deref "left" at visit_tree call
             sz arr deref "size" at =
             arr deref sz at node deref "value" at =
             arr deref "size" at sz 1 + =
-            vstptr arr node deref "right" at vstptr deref call
+            arr node deref "right" at visit_tree call
         end
     end =
 
-    delete_tree delptr node 2 fun
+    delete_tree node 1 fun
         if node none != then
-            delptr node deref "left" at delptr deref call
-            delptr node deref "right" at delptr deref call
+            delete_tree $ deref "delete_tree" at =
+            node deref "left" at delete_tree call
+            node deref "right" at delete_tree call
             node deref delete
         end
     end =
@@ -44,7 +47,7 @@ bstsort arr cmp 2 fun
     i 0 =
     sz arr deref "size" at =
     while i sz < do
-        insert ref root ref arr deref i at cmp insert call
+        insert ref root ref arr deref i at cmpfun insert call
         i i 1 + =
     end
 
@@ -53,7 +56,7 @@ bstsort arr cmp 2 fun
     delete_tree ref root delete_tree call
 end =
 
-cmp a b 2 fun
+cmpfun a b 2 fun
     a b - return
 end =
 
@@ -73,7 +76,7 @@ while arr.size size < do
 end
 
 "Sorting..." print
-arr ref cmp ref bstsort call
+arr ref cmpfun bstsort call
 
 "Printing..." print
 i 0 =

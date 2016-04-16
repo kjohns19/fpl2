@@ -68,8 +68,10 @@ class Program:
         self.goto(return_point.value.value)
         self.stack = fpl.stack.Stack(os.path.abspath('../_stack'))
         return_value.apply(self)
-        os.chdir('..')
-        fpl.utils.clear_path('_')
+        last = fpl.variable.Variable('$', do_load=True)
+        current = os.getcwd();
+        os.chdir(last.value.value)
+        fpl.utils.clear_path(current)
 
     def backtrace(self):
         trace = []
@@ -86,10 +88,13 @@ class Program:
         cur = fpl.variable.Variable(os.path.join(self.path, '_current'))
         cur.value = fpl.pointer.Pointer(path)
         cur.save()
+        last_path = os.getcwd();
         os.makedirs(path)
         os.chdir(path)
         ret = fpl.variable.Variable('_return', fpl.number.Number(self.counter()))
         ret.save()
+        last = fpl.variable.Variable('$', fpl.pointer.Pointer(last_path))
+        last.save()
         self.goto(counter)
         self.stack = fpl.stack.Stack(os.path.abspath('_stack'))
         
